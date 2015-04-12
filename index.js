@@ -1,7 +1,11 @@
 var express = require('express'),
     port = 9000;
 
+var basicAuth = require('basic-auth-connect');
+
 var app = express();
+
+app.use(basicAuth('username', 'password'));
 
 app.use(function(req, res, next){
   console.log('hello from the middleware!');
