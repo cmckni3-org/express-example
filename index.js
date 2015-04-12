@@ -1,9 +1,13 @@
 var express = require('express'),
     port = 9000;
+var expressHbs = require('express-handlebars');
 
 var basicAuth = require('basic-auth-connect');
 
 var app = express();
+
+app.engine('hbs', expressHbs({extname: 'hbs', defaultLayout: 'main.hbs'}));
+app.set('view engine', 'hbs');
 
 app.use(basicAuth('username', 'password'));
 
@@ -21,7 +25,10 @@ app.use(function(req, res, next){
 });
 
 app.get('/:name', function(req, res){
-  res.send("hello, " + req.params.name)
+  res.render(
+    'greeting',
+    {title: 'Simple greeting app', name: req.params.name
+  });
 });
 
 app.listen(port, function(){
